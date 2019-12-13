@@ -19,6 +19,7 @@ void sendConstantMessages(int sockfd, int seconds);
 int main(int argc, char *argv[])
 {
     int sockfd;
+    int numSecondsOfMessages;
     struct sockaddr_in serverAddress;
     struct hostent *server;
     validateInput(argc, argv);
@@ -37,7 +38,8 @@ int main(int argc, char *argv[])
 			    sizeof(serverAddress)) < 0) 
         errorOut("ERROR connecting");
 
-     sendConstantMessages(sockfd, 4); 
+    numSecondsOfMessages = atoi(argv[3]);
+     sendConstantMessages(sockfd, numSecondsOfMessages); 
      return 0;
 
 }
@@ -53,7 +55,7 @@ int getPortNumber(char *argv[]) {
 }
 
 void validateInput(int argc, char *argv[]) {
-	const int RequiredNumberOfArguments = 3;
+	const int RequiredNumberOfArguments = 4;
 	if (argc != RequiredNumberOfArguments) {
 		fprintf(stderr,"usage %s hostname port\n", argv[0]);
 		exit(0);
