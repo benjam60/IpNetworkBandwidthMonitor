@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+#include <strings.h>
+#include <string.h>
 
 #define KILOBYTE 1000
 
@@ -42,7 +44,7 @@ int main(int argc, char *argv[])
 	bytesReceived = read(newsockfd, buffer, KILOBYTE);
 	if (bytesReceived < 0) { error("ERROR reading from socket"); }
 	else { bytesRead += bytesReceived; }
-     } while (bytesReceived > 4); // (0 == hasFinMessage(buffer, n));
+     } while (0 == hasFinMessage(buffer, bytesReceived));
      double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
@@ -56,11 +58,17 @@ void error(char *msg)
     exit(1);
 }
 
-int hasFinMessage(char * msg, int length) {
+int hasFinMessage(char *msg, int length) {
 	int index = 0;
+	char * fin = "FIN";
 	while (index < length) {
-		if (*msg != '0') { return 1;}
-		++msg;
+		if (msg[0] == 'F') {
+		       	return 1;
+		}
+		else { 
+			index = index + 1;
+			msg = msg + 1; 
+		} 
 	}
 	return 0;
 }
