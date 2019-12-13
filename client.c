@@ -74,18 +74,20 @@ void createServerAddress(struct sockaddr_in *serverAddress,
 }
 
 double calculateTimeElapsed(clock_t start, clock_t end) {
-	return (end - start) / CLOCKS_PER_SEC;
+	return (end - start) /(double) CLOCKS_PER_SEC;
 }
 
 void sendConstantMessages(int sockfd, int seconds) { 
 	clock_t start, end;
 	char buffer[KILOBYTE];
+	char *finMessage = "FIN";
 	bzero(buffer, KILOBYTE);
 	start = clock();
 	do {
-		if (write(sockfd,buffer,strlen(buffer))< 0) 
+		if (write(sockfd,buffer, KILOBYTE)< 0) 
 			errorOut("ERROR writing to socket");
 		end = clock();
 	} while (calculateTimeElapsed(start, end) < (double)seconds);
-
+	printf("writing fin message");
+	write(sockfd, finMessage, strlen(finMessage));
 }
