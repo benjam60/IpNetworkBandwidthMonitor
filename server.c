@@ -48,7 +48,11 @@ int main(int argc, char *argv[])
      double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
-     printf("Received=%f KB, Rate=%f Mbps", kilobytesReceived , Mbps);
+
+     FILE *f;
+     f = fopen("LastPerformanceTest.txt", "w+");
+     fprintf(f, "Received=%f KB, Rate=%f Mbps", kilobytesReceived , Mbps);
+     fclose(f);
      return 0; 
 }
 
