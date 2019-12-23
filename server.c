@@ -42,12 +42,14 @@ int main(int argc, char *argv[])
      double bytesRead = 0;
      bytesReceived = read(newsockfd, buffer, KILOBYTE);
      clock_t startTime = clock();
+     clock_t endTime;
      while (buffer[0] != FIRST_LETTER_OF_FIN_MESSAGE) {
 	if (bytesReceived < 0) { error("ERROR reading from socket"); }
 	else { bytesRead += bytesReceived; }
 	bytesReceived = read(newsockfd, buffer, KILOBYTE);
+	endTime = clock();
      } 
-     double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+     double elapsedTimeInSeconds = (endTime - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
 
