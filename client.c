@@ -87,6 +87,6 @@ void sendConstantMessages(int sockfd, int seconds) {
 		if (write(sockfd,buffer, KILOBYTE)< 0) 
 			errorOut("ERROR writing to socket");
 	} while (calculateTimeElapsed(start, clock()) < (double)seconds);
-	printf("writing fin message");
 	write(sockfd, finMessage, strlen(finMessage));
+	close(sockfd);
 }
