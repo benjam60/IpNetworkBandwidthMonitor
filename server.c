@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
      newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
      if (newsockfd < 0) error("ERROR on accept");
      bzero(buffer, KILOBYTE);
-     int bytesRead = 0;
+     double bytesRead = 0;
      bytesReceived = read(newsockfd, buffer, KILOBYTE);
      clock_t startTime = clock();
      while (buffer[0] != FIRST_LETTER_OF_FIN_MESSAGE) {
