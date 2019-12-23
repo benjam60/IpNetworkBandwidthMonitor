@@ -9,6 +9,7 @@
 #include <string.h>
 
 #define KILOBYTE 1000
+#define FIRST_LETTER_OF_FIN_MESSAGE 'F' 
 
 void error(char *msg);
 int hasFinMessage(char * msg, int length);
@@ -39,12 +40,13 @@ int main(int argc, char *argv[])
      if (newsockfd < 0) error("ERROR on accept");
      bzero(buffer, KILOBYTE);
      int bytesRead = 0;
+     bytesReceived = read(newsockfd, buffer, KILOBYTE);
      clock_t startTime = clock();
-     do {
-	bytesReceived = read(newsockfd, buffer, KILOBYTE);
+     while (buffer[0] != FIRST_LETTER_OF_FIN_MESSAGE) {
 	if (bytesReceived < 0) { error("ERROR reading from socket"); }
 	else { bytesRead += bytesReceived; }
-     } while (0 == hasFinMessage(buffer, bytesReceived));
+	bytesReceived = read(newsockfd, buffer, KILOBYTE);
+     } 
      double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
@@ -62,17 +64,3 @@ void error(char *msg)
     exit(1);
 }
 
-int hasFinMessage(char *msg, int length) {
-	int index = 0;
-	char * fin = "FIN";
-	while (index < length) {
-		if (msg[0] == 'F') {
-		       	return 1;
-		}
-		else { 
-			index = index + 1;
-			msg = msg + 1; 
-		} 
-	}
-	return 0;
-}
