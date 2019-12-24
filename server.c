@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
      if (newsockfd < 0) error("ERROR on accept");
      clock_t startTime = clock();
      bytesReceived = read(newsockfd, buffer, KILOBYTE);
-     while (bytesReceived >= 0) {
+     while (bytesReceived > 0) {
 	if (bytesReceived < 0) { error("ERROR reading from socket"); }
 	else { bytesRead += bytesReceived; }
 	bytesReceived = read(newsockfd, buffer, KILOBYTE);
