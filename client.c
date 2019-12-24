@@ -88,5 +88,6 @@ void sendConstantMessages(int sockfd, int seconds) {
 			errorOut("ERROR writing to socket");
 	} while (calculateTimeElapsed(start, clock()) < (double)seconds);
 	write(sockfd, finMessage, strlen(finMessage));
+	read(sockfd, buffer, 7); //read finack message
 	close(sockfd);
 }

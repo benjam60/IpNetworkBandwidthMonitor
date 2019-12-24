@@ -51,7 +51,6 @@ int main(int argc, char *argv[])
      
 	char *finAckMessage = "FINACK";
         write(sockfd, finAckMessage, strlen(finAckMessage));
-     
 	double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
