@@ -47,8 +47,12 @@ int main(int argc, char *argv[])
 	else { bytesRead += bytesReceived; }
 	bytesReceived = read(newsockfd, buffer, KILOBYTE);
 	//buffer[0] != FIRST_LETTER_OF_FIN_MESSAGE
-     } 
-     double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
+     }
+     
+	char *finAckMessage = "FINACK";
+        write(sockfd, finAckMessage, strlen(finAckMessage));
+     
+	double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
 
