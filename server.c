@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
      if (newsockfd < 0) error("ERROR on accept");
      clock_t startTime = clock();
      bytesReceived = read(newsockfd, buffer, KILOBYTE);
-     while (bytesReceived > 0) {
+     while (buffer[0] != FIRST_LETTER_OF_FIN_MESSAGE) {
 	if (bytesReceived < 0) { error("ERROR reading from socket"); }
 	else { bytesRead += bytesReceived; }
 	bytesReceived = read(newsockfd, buffer, KILOBYTE);
@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
      
 	char *finAckMessage = "FINACK";
         write(sockfd, finAckMessage, strlen(finAckMessage));
+	close(sockfd);
 	double elapsedTimeInSeconds = (clock() - startTime)/(double)CLOCKS_PER_SEC;
      double kilobytesReceived = bytesRead / (double)1000;
      double Mbps = bytesRead / (double)125000;
